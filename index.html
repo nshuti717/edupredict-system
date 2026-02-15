@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduPredict — Student Performance Prediction System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 3L28 9V23L16 29L4 23V9L16 3Z" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M16 3V29" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <path d="M4 9L28 23" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <path d="M28 9L4 23" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <circle cx="16" cy="16" r="3" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="logo-text">EduPredict</span>
+      </div>
+      <nav class="header-nav">
+        <a href="#predict" class="nav-link active">Predict</a>
+        <a href="#results" class="nav-link">Results</a>
+        <a href="#students" class="nav-link">All Students</a>
+      </nav>
+      <div class="header-badge">
+        <span class="badge-dot"></span>
+        ML Model Active
+      </div>
+    </div>
+  </header>
+
+  <!-- ── HERO BANNER ── -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Powered by Machine Learning</div>
+      <h1 class="hero-title">Predict Student<br /><em>Performance Outcomes</em></h1>
+      <p class="hero-desc">Enter student academic data below. The system will analyse attendance, scores, and engagement patterns to generate a real-time performance prediction with actionable risk insights.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-value" id="stat-analyzed">0</span>
+        <span class="stat-label">Students Analyzed</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">94.2<small>%</small></span>
+        <span class="stat-label">Model Accuracy</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">3</span>
+        <span class="stat-label">Risk Levels</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="main-content">
+
+    <!-- LEFT: INPUT FORM -->
+    <section class="panel form-panel" id="predict">
+      <div class="panel-header">
+        <h2 class="panel-title">
+          <span class="panel-icon">📋</span>
+          Student Data Entry
+        </h2>
+        <p class="panel-subtitle">Fill in the fields below accurately for a reliable prediction.</p>
+      </div>
+
+      <form id="predictionForm" novalidate>
+
+        <!-- Student Identity -->
+        <fieldset class="form-group">
+          <legend class="group-legend">Student Identity</legend>
+          <div class="input-row">
+            <div class="input-wrap">
+              <label for="studentName">Student Name</label>
+              <input type="text" id="studentName" name="studentName" placeholder="e.g. Alice Uwimana" required />
+            </div>
+            <div class="input-wrap">
+              <label for="studentId">Student ID</label>
+              <input type="text" id="studentId" name="studentId" placeholder="e.g. STU-2024-001" required />
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="input-wrap">
+              <label for="gradeLevel">Grade / Year</label>
+              <select id="gradeLevel" name="gradeLevel" required>
+                <option value="">Select grade</option>
+                <option value="1">Year 1</option>
+                <option value="2">Year 2</option>
+                <option value="3">Year 3</option>
+                <option value="4">Year 4</option>
+                <option value="5">Year 5</option>
+              </select>
+            </div>
+            <div class="input-wrap">
+              <label for="subject">Subject</label>
+              <select id="subject" name="subject" required>
+                <option value="">Select subject</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Science">Science</option>
+                <option value="English">English</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="History">History</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Academic Metrics -->
+        <fieldset class="form-group">
+          <legend class="group-legend">Academic Metrics</legend>
+
+          <div class="slider-wrap">
+            <div class="slider-label-row">
+              <label for="attendance">Attendance Rate</label>
+              <span class="slider-value" id="attendanceVal">75%</span>
+            </div>
+            <input type="range" id="attendance" name="attendance" min="0" max="100" value="75" class="slider" />
+            <div class="slider-ticks">
+              <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
+            </div>
+          </div>
+
+          <div class="slider-wrap">
+            <div class="slider-label-row">
+              <label for="testScore">Average Test Score</label>
+              <span class="slider-value" id="testScoreVal">65/100</span>
+            </div>
+            <input type="range" id="testScore" name="testScore" min="0" max="100" value="65" class="slider" />
+            <div class="slider-ticks">
+              <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+            </div>
+          </div>
+
+          <div class="slider-wrap">
+            <div class="slider-label-row">
+              <label for="assignmentScore">Assignment Completion Score</label>
+              <span class="slider-value" id="assignmentScoreVal">70/100</span>
+            </div>
+            <input type="range" id="assignmentScore" name="assignmentScore" min="0" max="100" value="70" class="slider" />
+            <div class="slider-ticks">
+              <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+            </div>
+          </div>
+
+        </fieldset>
+
+        <!-- Engagement Level -->
+        <fieldset class="form-group">
+          <legend class="group-legend">Engagement Level</legend>
+          <div class="engagement-grid">
+            <label class="engagement-card">
+              <input type="radio" name="engagement" value="4" />
+              <span class="eng-icon">🌟</span>
+              <span class="eng-label">Highly Engaged</span>
+              <span class="eng-desc">Active participant, always present mentally</span>
+            </label>
+            <label class="engagement-card">
+              <input type="radio" name="engagement" value="3" checked />
+              <span class="eng-icon">✅</span>
+              <span class="eng-label">Engaged</span>
+              <span class="eng-desc">Usually attentive and participates</span>
+            </label>
+            <label class="engagement-card">
+              <input type="radio" name="engagement" value="2" />
+              <span class="eng-icon">⚠️</span>
+              <span class="eng-label">Partially Engaged</span>
+              <span class="eng-desc">Sometimes distracted or disinterested</span>
+            </label>
+            <label class="engagement-card">
+              <input type="radio" name="engagement" value="1" />
+              <span class="eng-icon">🔴</span>
+              <span class="eng-label">Disengaged</span>
+              <span class="eng-desc">Rarely participates, frequently absent mentally</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Additional Factors -->
+        <fieldset class="form-group">
+          <legend class="group-legend">Additional Factors</legend>
+          <div class="input-row">
+            <div class="input-wrap">
+              <label for="missedDeadlines">Missed Deadlines (count)</label>
+              <input type="number" id="missedDeadlines" name="missedDeadlines" min="0" max="20" value="2" placeholder="0" />
+            </div>
+            <div class="input-wrap">
+              <label for="studyHours">Weekly Study Hours</label>
+              <input type="number" id="studyHours" name="studyHours" min="0" max="40" value="10" placeholder="0" />
+            </div>
+          </div>
+          <div class="input-wrap full-width">
+            <label for="notes">Teacher Notes <small>(optional)</small></label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Any additional observations about this student's recent behavior or circumstances…"></textarea>
+          </div>
+        </fieldset>
+
+        <!-- Submit -->
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="resetBtn">Clear Form</button>
+          <button type="submit" class="btn-primary" id="submitBtn">
+            <span class="btn-text">Predict Performance</span>
+            <span class="btn-spinner hidden" id="spinner">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-dasharray="40" stroke-dashoffset="10"/>
+              </svg>
+            </span>
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- RIGHT: RESULTS PANEL -->
+    <aside class="panel results-panel" id="results">
+
+      <!-- Placeholder before prediction -->
+      <div class="results-placeholder" id="resultsPlaceholder">
+        <div class="placeholder-icon">📊</div>
+        <h3>Awaiting Prediction</h3>
+        <p>Complete the student data form and click "Predict Performance" to see the ML-generated performance outlook here.</p>
+      </div>
+
+      <!-- Actual results (hidden until prediction) -->
+      <div class="results-content hidden" id="resultsContent">
+
+        <!-- Student Summary Card -->
+        <div class="result-header">
+          <h2 class="panel-title">
+            <span class="panel-icon">🎯</span>
+            Prediction Results
+          </h2>
+          <div class="result-student-info">
+            <span class="result-name" id="resultName">—</span>
+            <span class="result-meta" id="resultMeta">—</span>
+          </div>
+        </div>
+
+        <!-- Outcome Cards -->
+        <div class="outcome-row">
+          <div class="outcome-card prediction-card">
+            <span class="outcome-label">Prediction</span>
+            <span class="outcome-value" id="predictionBadge">—</span>
+          </div>
+          <div class="outcome-card grade-card">
+            <span class="outcome-label">Projected Grade</span>
+            <span class="outcome-value grade-value" id="gradeBadge">—</span>
+          </div>
+          <div class="outcome-card risk-card">
+            <span class="outcome-label">Risk Level</span>
+            <div class="risk-indicator" id="riskIndicator">
+              <span class="risk-dot"></span>
+              <span class="risk-text" id="riskText">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Score Breakdown Chart -->
+        <div class="chart-section">
+          <h3 class="section-title">Score Breakdown</h3>
+          <div class="bar-chart" id="barChart">
+            <div class="bar-row">
+              <span class="bar-label">Attendance</span>
+              <div class="bar-track">
+                <div class="bar-fill" id="bar-attendance" style="width:0%"></div>
+              </div>
+              <span class="bar-pct" id="pct-attendance">0%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Test Scores</span>
+              <div class="bar-track">
+                <div class="bar-fill" id="bar-test" style="width:0%"></div>
+              </div>
+              <span class="bar-pct" id="pct-test">0</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Assignments</span>
+              <div class="bar-track">
+                <div class="bar-fill" id="bar-assignment" style="width:0%"></div>
+              </div>
+              <span class="bar-pct" id="pct-assignment">0</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Engagement</span>
+              <div class="bar-track">
+                <div class="bar-fill" id="bar-engagement" style="width:0%"></div>
+              </div>
+              <span class="bar-pct" id="pct-engagement">0%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Overall Score</span>
+              <div class="bar-track">
+                <div class="bar-fill overall-fill" id="bar-overall" style="width:0%"></div>
+              </div>
+              <span class="bar-pct" id="pct-overall">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="recommendations" id="recommendations">
+          <h3 class="section-title">📌 Recommendations</h3>
+          <ul class="rec-list" id="recList"></ul>
+        </div>
+
+        <!-- Confidence Score -->
+        <div class="confidence-row">
+          <span class="conf-label">Model Confidence</span>
+          <div class="conf-bar-track">
+            <div class="conf-bar-fill" id="confBar" style="width:0%"></div>
+          </div>
+          <span class="conf-pct" id="confPct">0%</span>
+        </div>
+
+        <!-- API Response Debug -->
+        <details class="api-debug">
+          <summary>API Response (JSON)</summary>
+          <pre id="apiRaw">{ }</pre>
+        </details>
+
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- ── STUDENTS TABLE ── -->
+  <section class="section-students" id="students">
+    <div class="section-header">
+      <h2 class="section-heading">Student Prediction History</h2>
+      <div class="table-controls">
+        <input type="text" id="tableSearch" placeholder="Search by name or ID…" class="table-search" />
+        <button class="btn-secondary small" id="exportBtn">Export CSV</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="students-table" id="studentsTable">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>ID</th>
+            <th>Subject</th>
+            <th>Attendance</th>
+            <th>Test Score</th>
+            <th>Assignment</th>
+            <th>Prediction</th>
+            <th>Grade</th>
+            <th>Risk</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody id="studentsTableBody">
+          <tr class="empty-row">
+            <td colspan="10">No predictions yet. Submit a student's data above to begin.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>EduPredict &copy; 2026 — Intelligent Student Performance Prediction System</span>
+      <span class="footer-note">Frontend communicates with backend at <code id="apiEndpointDisplay">/api/predict</code> via <code>fetch()</code> POST requests</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
